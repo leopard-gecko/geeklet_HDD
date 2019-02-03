@@ -9,48 +9,45 @@ LANG=ja_JP.UTF-8
 disknameln=17
 
 mystrln() {
-    local j=0 k=0 m=0 chs=0
+    local j=0 k=0 m=0
     for ((l = 0; l &lt; $((${#1})); ++l))
     do
         # マルチバイト文字か判定
-        [ `echo -n ${1:$l:1} | wc -c` -eq 1 ] &amp;&amp; oku=1 || oku=2
+        [ `echo -n ${1:$l:1} | wc -c` -le 1 ] &amp;&amp; oku=1 || oku=2
         k=$(($k+$oku))
 		if ((k &gt; $2 )); then
-		    # 最後の一文字がマルチバイト文字だったら表示桁数を一つ減らす
-		    [ $(($m % 2)) -ne $(($2 % 2)) ] &amp;&amp; chs=1
             break
         else
-        [ $oku -gt 1 ] &amp;&amp; j=$(($j+1)) || m=$(($m+1))
+            [ $oku -gt 1 ] &amp;&amp; j=$(($j+1))
+            m=$(($m+1))
         fi
     done
-    printf -v $3 "%d" $(($j+$2))
-    printf -v $4 "%d" $(($j+$2-$chs))
+    printf -v $3 "%s" "`echo -n ${1:0:$m}`"
+    printf -v $4 "%d" $(($j+$2))
 }  
 
 printf '\033[4m%-*s%5s%7s%7s%16s\033[0m\n' $disknameln "Drive" "Size" "Used" "Avail" "Capacity"
-dfdata=`df -h | grep '/dev/disk\|/Volumes/' | grep -v 'private/var/vm\|firmwaresyncd\|com.apple.TimeMachine.localsnapshots'`
-diskdata=(`echo "$dfdata" | awk 'BEGIN{OFS=","}{print $2,$3,$4,$5}' | sed -e 's/Mi/MB/g' -e 's/Gi/GB/g' -e 's/Ti/TB/g' -e 's/\%//g'`)
 _IFS="$IFS";IFS=$'\n'
+dfdata=`df -h | grep '/dev/disk\|/Volumes/' | grep -v 'private/var/vm\|firmwaresyncd\|com.apple.TimeMachine.localsnapshots'`
+diskdata=(`echo "$dfdata" | awk '{print $2,$3,$4}' | sed -e 's/Mi/MB/g' -e 's/Gi/GB/g' -e 's/Ti/TB/g'`)
+diskcapa=(`echo "$dfdata" | awk '{print $5}' | sed -e 's/\%//g'`)
 diskname=(`echo "$dfdata" | awk '{for(i=9;i&lt;=NF;i++)printf $i" ";print ""}' | sed -e 's/\/Volumes\///g' -e '1s/\//Macintosh HD/' -e 's/[ ]*$//'`)
 IFS="$_IFS"
 for (( i = 0; i &lt; ${#diskdata[@]}; ++i ))
 do
-    diskcapa[$i]=`echo ${diskdata[$i]} | awk -F, '{print $4}'`
-	_IFS="$IFS";IFS=$'\n'
-    mystrln ${diskname[$i]} $disknameln s1 s2
-    echo ${diskname[$i]}:$s1:$s2 | awk -F: '{printf("%-*.*s",$2,$3,$1)}'
-    IFS="$_IFS"
-    echo ${diskdata[$i]} | awk -F, '{printf("%5s%7s%7s  ",$1,$2,$3)}'
-    typeset -i b=9
+    mystrln "${diskname[$i]}" $disknameln s1 s2
+    printf "%-*s" $s2 "$s1"
+    printf "%5s%7s%7s  " ${diskdata[$i]}
+    typeset -i b=4
     while [ $b -lt ${diskcapa[$i]} ]
     do
         printf "\033[0;37m▇\033[0m"
-   	    b=`expr $b + 10`
+   	    b=$(($b+10))
     done
     while [ $b -lt 100 ]
     do
         printf "\033[0;30m▇\033[0m"
-        b=`expr $b + 10`
+        b=$(($b+10))
     done
     printf "%3s%%\n" ${diskcapa[$i]}
 done </string>
@@ -148,7 +145,7 @@ done </string>
 	ivgZ+Kj5OPnH+lf65/t3/Af8mP0p/br+S/7c/23//w==
 	</data>
 	<key>FontFamily</key>
-	<string>Osaka-Mono</string>
+	<string>SFMono-Regular</string>
 	<key>FontSize</key>
 	<real>16</real>
 	<key>GeekletFrame</key>
