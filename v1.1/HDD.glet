@@ -18,7 +18,7 @@ mystrln() {
 		if ((k &gt; $2 )); then
             break
         else
-            [ $oku -gt 1 ] &amp;&amp; j=$(($j+1))
+            [ $oku -ne 1 ] &amp;&amp; j=$(($j+1))
             m=$(($m+1))
         fi
     done
@@ -149,7 +149,7 @@ done </string>
 	<key>FontSize</key>
 	<real>16</real>
 	<key>GeekletFrame</key>
-	<string>{{950, 920}, {592.61328125, 108.7890625}}</string>
+	<string>{{950, 920}, {593, 109}}</string>
 	<key>HasShadow</key>
 	<false/>
 	<key>Identifier</key>

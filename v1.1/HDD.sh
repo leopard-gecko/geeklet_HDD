@@ -13,7 +13,7 @@ mystrln() {
 		if ((k > $2 )); then
             break
         else
-            [ $oku -gt 1 ] && j=$(($j+1))
+            [ $oku -ne 1 ] && j=$(($j+1))
             m=$(($m+1))
         fi
     done
