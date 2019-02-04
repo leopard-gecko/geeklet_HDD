@@ -21,7 +21,7 @@ mystrln() {
     printf -v $4 "%d" $(($j+$2))
 }  
 
-printf '\033[4m%-*s%5s%7s%7s%16s\033[0m\n' $disknameln "Drive" "Size" "Used" "Avail" "Capacity"
+printf '\033[4m%-*s%5s%7s%7s%17s\033[0m\n' $disknameln "Drive" "Size" "Used" "Avail" "Capacity"
 _IFS="$IFS";IFS=$'\n'
 dfdata=`df -h | grep '/dev/disk\|/Volumes/' | grep -v 'private/var/vm\|firmwaresyncd\|com.apple.TimeMachine.localsnapshots'`
 diskdata=(`echo "$dfdata" | awk '{print $2,$3,$4}' | sed -e 's/Mi/MB/g' -e 's/Gi/GB/g' -e 's/Ti/TB/g'`)
@@ -44,5 +44,5 @@ do
         printf "\033[0;30m▇\033[0m"
         b=$(($b+10))
     done
-    printf "%3s%%\n" ${diskcapa[$i]}
+    printf "%4s%%\n" ${diskcapa[$i]}
 done 
