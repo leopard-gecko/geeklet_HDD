@@ -1,5 +1,3 @@
-# ディスク容量のスクリプト
-
 #!/bin/bash
 LANG=ja_JP.UTF-8
 
