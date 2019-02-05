@@ -140,9 +140,11 @@ done </string>
 	ivgZ+Kj5OPnH+lf65/t3/Af8mP0p/br+S/7c/23//w==
 	</data>
 	<key>FontFamily</key>
-	<string>Osaka-Mono</string>
+	<string>Menlo-Regular</string>
 	<key>FontSize</key>
-	<real>18</real>
+	<real>16</real>
+	<key>ForceCR</key>
+	<false/>
 	<key>GeekletFrame</key>
 	<string>{{950, 920}, {593, 109}}</string>
 	<key>HasShadow</key>
@@ -153,6 +155,8 @@ done </string>
 	<string>df_main</string>
 	<key>RefreshInterval</key>
 	<integer>600</integer>
+	<key>RightToLeft</key>
+	<false/>
 	<key>SetLocale</key>
 	<true/>
 	<key>ShadowBlur</key>
