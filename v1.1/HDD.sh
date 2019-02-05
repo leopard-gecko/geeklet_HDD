@@ -31,12 +31,12 @@ do
     typeset -i b=4
     while [ $b -lt ${diskcapa[$i]} ]
     do
-        printf "\033[0;37m▇\033[0m"
+        printf "\033[0;37m￭\033[0m"
    	    b=$(($b+10))
     done
     while [ $b -lt 100 ]
     do
-        printf "\033[0;30m▇\033[0m"
+        printf "\033[0;30m￭\033[0m"
         b=$(($b+10))
     done
     printf "%4s%%\n" ${diskcapa[$i]}
