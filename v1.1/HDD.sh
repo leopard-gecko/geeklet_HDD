@@ -7,13 +7,10 @@ mystrln() {
     local dn=0 mb=0
     for ((j = 0; j < $((${#1})); ++j))
     do
-        [ `echo -n ${1:$j:1} | wc -c` -le 1 ] && fd=1 || fd=2
-        dn=$(($dn+$fd))
-        if ((dn > $2)); then
-            break
-        else
-            [ $fd -eq 2 ] && mb=$(($mb+1))
-        fi
+        [ `echo -n ${1:$j:1} | wc -c` -le 1 ] ; fd=$?
+        dn=$(($dn+1+$fd))
+        [ $dn -gt $2 ] && break
+        mb=$(($mb+$fd))
     done
     printf -v $3 "%s" "`echo -n ${1:0:$j}`"
     printf -v $4 "%d" $(($mb+$2))
