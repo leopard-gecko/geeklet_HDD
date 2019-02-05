@@ -4,22 +4,20 @@ LANG=ja_JP.UTF-8
 disknameln=17
 
 mystrln() {
-    local j=0 k=0 m=0
-    for ((l = 0; l < $((${#1})); ++l))
+    local dn=0 mb=0
+    for ((j = 0; j < $((${#1})); ++j))
     do
-        # マルチバイト文字か判定
-        [ `echo -n ${1:$l:1} | wc -c` -le 1 ] && oku=1 || oku=2
-        k=$(($k+$oku))
-		if ((k > $2 )); then
+        [ `echo -n ${1:$j:1} | wc -c` -le 1 ] && fd=1 || fd=2
+        dn=$(($dn+$fd))
+        if ((dn > $2)); then
             break
         else
-            [ $oku -ne 1 ] && j=$(($j+1))
-            m=$(($m+1))
+            [ $fd -eq 2 ] && mb=$(($mb+1))
         fi
     done
-    printf -v $3 "%s" "`echo -n ${1:0:$m}`"
-    printf -v $4 "%d" $(($j+$2))
-}  
+    printf -v $3 "%s" "`echo -n ${1:0:$j}`"
+    printf -v $4 "%d" $(($mb+$2))
+} 
 
 printf '\033[4m%-*s%5s%7s%7s%17s\033[0m\n' $disknameln "Drive" "Size" "Used" "Avail" "Capacity"
 _IFS="$IFS";IFS=$'\n'
