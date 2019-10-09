@@ -16,12 +16,12 @@ mystrln() {
     printf -v $4 "%d" $(($mb+$2))
 } 
 
-printf '\033[4m%-*s%5s%7s%7s%17s\033[0m\n' $disknameln "Drive" "Size" "Used" "Avail" "Capacity"
+printf '\033[4m%-*s%5s%7s%7s%17s\033[0m\n' $disknameln "Mounted on" "Size" "Used" "Avail" "Capacity"
 _IFS="$IFS";IFS=$'\n'
-dfdata=`df -h | grep '/dev/disk' | grep -v 'private/var/vm\|/System/Volumes/Data\|firmwaresyncd\|com.apple.TimeMachine.localsnapshots'`
+dfdata=`df -h | grep '/dev/disk' | grep -v 'private/var/vm\|/Volumes/Recovery\|firmwaresyncd\|com.apple.TimeMachine.localsnapshots\|\/$'`
 diskdata=(`echo "$dfdata" | awk '{print $2,$3,$4}' | sed -e 's/Mi/MB/g' -e 's/Gi/GB/g' -e 's/Ti/TB/g'`)
 diskcapa=(`echo "$dfdata" | awk '{print $5}' | sed -e 's/\%//g'`)
-diskname=(`echo "$dfdata" | awk '{for(i=9;i<=NF;i++)printf $i" ";print ""}' | sed -e 's/\/Volumes\///g' -e '1s/\//Macintosh HD/' -e 's/[ ]*$//'`)
+diskname=(`echo "$dfdata" | awk '{for(i=9;i<=NF;i++)printf $i" ";print ""}' | sed -e 's/\/System\/Volumes\/Data/Macintosh HD/g' -e 's/\/Volumes\///g' -e 's/[ ]*$//'`)
 IFS="$_IFS"
 for (( i = 0; i < ${#diskdata[@]}; ++i ))
 do
